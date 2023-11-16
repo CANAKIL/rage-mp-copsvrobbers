@@ -1,0 +1,4 @@
+<meta>
+    <info name="Test Server" description="Just a dummy server" />
+    <script src="ServerSide\bin\x64\Debug\netcoreapp3.1\ServerSide.dll" />
+</meta>

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "ServerSide": {
+      "commandName": "Project"
+    },
+    "Rage": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\canak\\Desktop\\test-server\\ragemp-server.exe",
+      "workingDirectory": "C:\\Users\\canak\\Desktop\\test-server"
+    }
+  }
+}

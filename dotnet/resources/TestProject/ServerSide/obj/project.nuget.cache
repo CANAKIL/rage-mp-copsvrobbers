@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "oJWEazs4g2iqlG3NKakps3iVExkqWdjJbJh++pprqcDYt49SmuwrU5Y6G8hPXgAPQ8M5QvM8WkKp/z4WXj+PhQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\canak\\Desktop\\test-server\\dotnet\\resources\\TestProject\\ServerSide\\ServerSide.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\canak\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
