@@ -29,7 +29,7 @@ namespace ServerSide
         [ServerEvent(Event.PlayerConnected)]
         public void OnPlayerConnect(Player player)
         {
-            if (checkPlayerCount() == 0)
+            if (checkPlayerCount() > 0)
             {
                 foreach (Player p in players)
                 {
@@ -56,14 +56,34 @@ namespace ServerSide
             else return 0;
         }
 
+        public void StartChase(Player player)
+        {
+            string side = player.GetData<string>(pickedSide);
+            // Spawn a car each for every player that picked a side on the chase.
+            // Put the players in those vehicles.
+            player.TriggerEvent("toggleFreezeClient");
+            // Countdown until chase starts
+            if (side == "Robber")
+            {
+                // Start after 5 seconds
+            }
+            else
+            {
+                // Start after 10 seconds
+            }
+        }
         [RemoteEvent("pickedSide")]
         public void PickedSide(Player player, string side)
         {
             NAPI.Util.ConsoleOutput("Player selected a side: " + side);
             player.SetData(pickedSide, side);
-            if (validateEnoughPlayers() == 0)
+            if (validateEnoughPlayers() == 1)
             {
                 NAPI.Notification.SendNotificationToPlayer(player, "Not enough players. Restarting the procedure.", true);
+            }
+            else
+            {
+                StartChase(player);
             }
         }
     }

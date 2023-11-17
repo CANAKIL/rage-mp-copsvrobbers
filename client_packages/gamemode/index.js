@@ -39,3 +39,9 @@ mp.events.add('startRaceProcedure', (player) => {
     }, 15000)
     chaseUI.Open();
 });
+
+mp.events.add('toggleFreezeClient', () => {
+    let freeze = false;
+    freeze = !freeze;
+    mp.players.local.freezePosition(freeze);
+})
