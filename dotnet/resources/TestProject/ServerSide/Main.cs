@@ -51,17 +51,41 @@ namespace ServerSide
                 string pSide = p.GetData<string>(pickedSide);
                 if (pSide == "Cops") copCount++;
                 else robberCount++;
+                robberCount = 0;
+                copCount = 0;
             }
-            if (copCount > 0 && robberCount > 0) return 1;
+            if (copCount > 0 && robberCount > 0) 
+            {
+                copCount = 0;
+                robberCount = 0;
+                return 1;
+            }
             else return 0;
         }
 
         public void StartChase(Player player)
         {
             string side = player.GetData<string>(pickedSide);
-            // Spawn a car each for every player that picked a side on the chase.
-            // Put the players in those vehicles.
-            player.TriggerEvent("toggleFreezeClient");
+            if (side == "Cops")
+            {
+                Vehicle veh = NAPI.Vehicle.CreateVehicle(VehicleHash.Police2, new Vector3(-1141.0807, -851.121, 13.528971), 39.3838f, 131, 131);
+                player.Position = new Vector3(-1136.67, -856.95844, 13.252587);
+                NAPI.Task.Run(() =>
+                {
+                    player.SetIntoVehicle(veh, (int)VehicleSeat.Driver);
+                }, 500);
+            }
+            Vehicle _veh = NAPI.Vehicle.CreateVehicle(VehicleHash.Kuruma, new Vector3(-1148.4805, -842.65814, 14.196873), 39.3838f, 131, 131);
+            /* else if (side == "Robbers")
+            {
+                Vehicle veh = NAPI.Vehicle.CreateVehicle(VehicleHash.Police2, new Vector3(x: -1148.4805, y: -842.65814, z: 14.196873), 39.3838f, 131, 131);
+                NAPI.Player.SetPlayerIntoVehicle(player, veh, 0);
+            } */
+            NAPI.Task.Run(() =>
+            {
+                player.TriggerEvent("toggleDisableCarControls");
+            }, 500);
+            NAPI.Util.ConsoleOutput("test");
             // Countdown until chase starts
             if (side == "Robber")
             {
@@ -85,6 +109,14 @@ namespace ServerSide
             {
                 StartChase(player);
             }
+        }
+
+        [Command("pos")]
+        public void debugPosition(Player player)
+        {
+            Vector3 playerPos = player.Position;
+            NAPI.Util.ConsoleOutput("X: " + playerPos.X + ", Y: " + playerPos.Y + ", Z: " + playerPos.Z + ", rot: " + player.Vehicle.Rotation);
+            NAPI.Notification.SendNotificationToPlayer(player, "Printed pos to server console.", true);
         }
     }
 }

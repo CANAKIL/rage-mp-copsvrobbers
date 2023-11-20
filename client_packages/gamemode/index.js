@@ -40,8 +40,13 @@ mp.events.add('startRaceProcedure', (player) => {
     chaseUI.Open();
 });
 
-mp.events.add('toggleFreezeClient', () => {
-    let freeze = false;
-    freeze = !freeze;
-    mp.players.local.freezePosition(freeze);
-})
+let toggle = false;
+mp.events.add('toggleDisableCarControls', () => {
+    toggle = true;
+});
+
+mp.events.add('render', () => {
+    mp.game.controls.disableControlAction(32, 75, toggle);
+    mp.game.controls.disableControlAction(32, 71, toggle);
+    mp.game.controls.disableControlAction(32, 72, toggle);
+});
