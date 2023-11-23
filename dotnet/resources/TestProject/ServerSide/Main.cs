@@ -1,16 +1,12 @@
 ﻿using GTANetworkAPI;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ServerSide
 {
     public class Main : Script
     {
-        [ServerEvent(Event.ResourceStart)]
-        public void OnResourceStart()
-        {
-            NAPI.Util.ConsoleOutput("Server started!");
-        }
         List<Player> players = null;
         public int checkPlayerCount()
         {
@@ -63,6 +59,7 @@ namespace ServerSide
             else return 0;
         }
 
+        private bool chaseStarted = false;
         public void StartChase(Player player)
         {
             string side = player.GetData<string>(pickedSide);
@@ -79,22 +76,20 @@ namespace ServerSide
             /* else if (side == "Robbers")
             {
                 Vehicle veh = NAPI.Vehicle.CreateVehicle(VehicleHash.Police2, new Vector3(x: -1148.4805, y: -842.65814, z: 14.196873), 39.3838f, 131, 131);
+                player.Position = new Vector3(-1136.67, -856.95844, 13.252587);
                 NAPI.Player.SetPlayerIntoVehicle(player, veh, 0);
             } */
             NAPI.Task.Run(() =>
             {
                 player.TriggerEvent("toggleDisableCarControls");
-            }, 500);
-            NAPI.Util.ConsoleOutput("test");
+            }, 200);
+
             // Countdown until chase starts
-            if (side == "Robber")
+            NAPI.Task.Run(() =>
             {
-                // Start after 5 seconds
-            }
-            else
-            {
-                // Start after 10 seconds
-            }
+                chaseStarted = true;
+                NAPI.Notification.SendNotificationToPlayer(player, "Go!", true);
+            }, 5000);
         }
         [RemoteEvent("pickedSide")]
         public void PickedSide(Player player, string side)
